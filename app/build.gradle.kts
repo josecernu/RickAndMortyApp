@@ -63,6 +63,10 @@ dependencies {
     // Dagger Hilt
     implementation(libs.hilt)
     kapt(libs.dagger.hilt.compiler)
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     kapt(libs.androidx.hilt)
+
+    // Navigation
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
 }
