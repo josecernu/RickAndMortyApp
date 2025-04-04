@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.ktlint.formatter)
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.apollo.graph.ql)
 }
 
 android {
@@ -19,6 +20,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    apollo {
+        useVersion2Compat()
     }
 
     buildTypes {
@@ -69,4 +74,8 @@ dependencies {
     // Navigation
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
+
+    //GraphQl
+    implementation(libs.apollo.runtime)
+    implementation(libs.apollo.api)
 }
