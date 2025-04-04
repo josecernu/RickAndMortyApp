@@ -81,4 +81,15 @@ dependencies {
     // GraphQl
     implementation(libs.apollo.runtime)
     implementation(libs.apollo.api)
+
+    // Coil
+    implementation(libs.coil.compose)
+
+    // implementation platform('androidx.compose:compose-bom:2025.02.00') // Use the latest BOM version
+
+    // Material and Compose
+    implementation(libs.ui)
+    implementation(libs.material3)
+    implementation(libs.ui.tooling.preview)
+    debugImplementation(libs.ui.tooling)
 }

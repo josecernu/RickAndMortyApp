@@ -2,15 +2,18 @@ package com.josecernu.rickandmortyapp.ui.home
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.josecernu.rickandmorty.RickAndMortyQuery
 import com.josecernu.rickandmortyapp.data.NetworkProcess
 import com.josecernu.rickandmortyapp.data.Repository
 import com.josecernu.rickandmortyapp.data.mapper.toRickyAndMortyCharacter
 import com.josecernu.rickandmortyapp.data.model.RickyAndMortyCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +25,9 @@ class HomeViewModel
             const val TAG = "HomeViewModel"
         }
 
-        val charactersList = MutableSharedFlow<List<RickyAndMortyCharacter?>>()
+        private val _characterList = MutableStateFlow<List<RickyAndMortyCharacter>>(emptyList())
+        val characterList: StateFlow<List<RickyAndMortyCharacter>> = _characterList
+
         val loader = MutableSharedFlow<Boolean>()
 
         init {
@@ -30,25 +35,25 @@ class HomeViewModel
         }
 
         private fun getCharacters() {
-            CoroutineScope(Dispatchers.IO).launch {
-                loader.emit(true)
-                repository.makeApiCall(RickAndMortyQuery()).collect { it ->
-                    when (it) {
-                        is NetworkProcess.Success -> {
-                            Log.d(TAG, "Success")
-                            loader.emit(false)
-                            val list = it.data?.characters?.results?.map { it?.toRickyAndMortyCharacter() }
-                            charactersList.emit(list ?: emptyList())
-                        }
-                        is NetworkProcess.Failure -> {
-                            Log.d(TAG, "ErrorCode: ${it.errorCode} Message: ${it.message} Data: ${it.data}")
-                        }
-
-                        is NetworkProcess.Loading -> {
-                            Log.d(TAG, "Loading")
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.makeApiCall(RickAndMortyQuery())
+                    .collectLatest { result ->
+                        when (result) {
+                            is NetworkProcess.Failure -> {
+                                loader.emit(false)
+                                Log.d(TAG, "ErrorCode: ${result.errorCode} Message: ${result.message} Data: ${result.data}")
+                            }
+                            NetworkProcess.Loading -> {
+                                Log.d(TAG, "Loading")
+                            }
+                            is NetworkProcess.Success -> {
+                                Log.d(TAG, "Success")
+                                val list = result.data?.characters?.results?.mapNotNull { it?.toRickyAndMortyCharacter() } ?: emptyList()
+                                _characterList.value = list
+                                loader.emit(false)
+                            }
                         }
                     }
-                }
             }
         }
     }

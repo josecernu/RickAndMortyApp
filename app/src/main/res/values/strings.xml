@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">RickAndMortyApp</string>
+    <string name="character_name">Name</string>
+    <string name="character_origin">Origin</string>
+    <string name="character_gender">Gender</string>
+    <string name="error_title">There was an error loading the info</string>
+    <string name="error_description">You can try refreshing the screen again</string>
+    <string name="emtpy_state_title">There was no items right now</string>
+    <string name="empty_state_description">Come back later for updates</string>
 </resources>
