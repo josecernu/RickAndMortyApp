@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ktlint.formatter)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.kapt)
 }
 
 android {
@@ -57,4 +59,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Dagger Hilt
+    implementation(libs.hilt)
+    kapt(libs.dagger.hilt.compiler)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    kapt(libs.androidx.hilt)
 }
