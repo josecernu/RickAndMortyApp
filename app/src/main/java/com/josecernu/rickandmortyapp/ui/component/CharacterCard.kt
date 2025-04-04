@@ -64,7 +64,7 @@ fun CharacterCard(
 }
 
 @Composable
-fun CharacterCardSkeleton()  {
+fun CharacterCardSkeleton() {
     Row(
         modifier =
             Modifier
@@ -125,6 +125,6 @@ fun CharacterCardPreview() {
 
 @Preview
 @Composable
-fun CharacterCardSkeletonPreview()  {
+fun CharacterCardSkeletonPreview() {
     CharacterCardSkeleton()
 }

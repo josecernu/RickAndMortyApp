@@ -60,7 +60,7 @@ fun MainScreen(
                         title = stringResource(R.string.error_title),
                         description = stringResource(R.string.error_description),
                     )
-                }else {
+                } else {
                     if (characterList.isEmpty()) {
                         ErrorOrEmptyState(
                             title = stringResource(R.string.emtpy_state_title),
@@ -69,7 +69,7 @@ fun MainScreen(
                     } else {
                         CharacterListScreen(
                             characterList,
-                            navController
+                            navController,
                         )
                     }
                 }
@@ -82,24 +82,26 @@ fun MainScreen(
 @Composable
 fun CharacterListScreen(
     characterList: List<RickyAndMortyCharacter>,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     val options = listOf("All", "Male", "Female", "Unknown")
-    var expanded by remember {mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
     var optionSelected by remember { mutableStateOf("All") }
 
-    val filteredList = characterList.filter {
-        optionSelected == "All" || it.gender.equals(optionSelected, ignoreCase = true)
-    }
+    val filteredList =
+        characterList.filter {
+            optionSelected == "All" || it.gender.equals(optionSelected, ignoreCase = true)
+        }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
+            onExpandedChange = { expanded = !expanded },
         ) {
             TextField(
                 value = optionSelected,
@@ -107,13 +109,14 @@ fun CharacterListScreen(
                 readOnly = true,
                 label = { Text(stringResource(R.string.filter_by_gender)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                modifier = Modifier
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
+                        .fillMaxWidth(),
             )
             ExposedDropdownMenu(
                 expanded = expanded,
-                onDismissRequest = { expanded = false }
+                onDismissRequest = { expanded = false },
             ) {
                 options.forEach { gender ->
                     DropdownMenuItem(
@@ -121,7 +124,7 @@ fun CharacterListScreen(
                         onClick = {
                             optionSelected = gender
                             expanded = false
-                        }
+                        },
                     )
                 }
             }
@@ -135,7 +138,7 @@ fun CharacterListScreen(
                     name = item.name,
                     origin = item.locationName,
                     gender = item.gender,
-                    pictureUrl = item.image
+                    pictureUrl = item.image,
                 ) {
                     navController.navigate(Destination.Detail.route + "/${item.id}")
                 }
