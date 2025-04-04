@@ -1,0 +1,16 @@
+query RickAndMorty{
+    characters(page: 1) {
+        results {
+            id
+            name
+            origin {
+                id
+                name
+            }
+            gender
+            status
+            species
+            image
+        }
+    }
+}

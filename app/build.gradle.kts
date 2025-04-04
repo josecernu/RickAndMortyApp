@@ -23,7 +23,10 @@ android {
     }
 
     apollo {
-        useVersion2Compat()
+        // useVersion2Compat()
+        service("service") {
+            packageNamesFromFilePaths()
+        }
     }
 
     buildTypes {
@@ -75,7 +78,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
 
-    //GraphQl
+    // GraphQl
     implementation(libs.apollo.runtime)
     implementation(libs.apollo.api)
 }
