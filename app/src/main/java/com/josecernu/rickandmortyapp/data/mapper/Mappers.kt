@@ -7,6 +7,7 @@ fun RickAndMortyQuery.Result.toRickyAndMortyCharacter(): RickyAndMortyCharacter 
     return RickyAndMortyCharacter(
         id = id.orEmpty(),
         name = name.orEmpty(),
+        locationName = origin?.name.orEmpty(),
         gender = gender.orEmpty(),
         status = status.orEmpty(),
         species = species.orEmpty(),

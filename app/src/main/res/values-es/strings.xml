@@ -7,4 +7,5 @@
     <string name="error_description">Puedes intentar actualizar la pantalla de nuevo</string>
     <string name="emtpy_state_title">No hay informaicón ahora mismo</string>
     <string name="empty_state_description">Regresa más tarde para ver las actualizaciones</string>
+    <string name="filter_by_gender">Filtro por género</string>
 </resources>

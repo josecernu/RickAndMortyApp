@@ -1,6 +1,7 @@
 package com.josecernu.rickandmortyapp.ui.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,12 +33,14 @@ fun CharacterCard(
     origin: String,
     gender: String,
     pictureUrl: String,
+    onClick: () -> Unit,
 ) {
     Row(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
@@ -116,7 +119,7 @@ fun CharacterCardPreview() {
             origin = "Earth (C-137)",
             gender = "Male",
             pictureUrl = "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-        )
+        ) {}
     }
 }
 

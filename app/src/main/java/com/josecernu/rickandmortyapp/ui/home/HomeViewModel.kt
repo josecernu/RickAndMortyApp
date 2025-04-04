@@ -28,7 +28,9 @@ class HomeViewModel
         private val _characterList = MutableStateFlow<List<RickyAndMortyCharacter>>(emptyList())
         val characterList: StateFlow<List<RickyAndMortyCharacter>> = _characterList
 
-        val loader = MutableSharedFlow<Boolean>()
+        private val _loader = MutableStateFlow(true)
+        val loader: StateFlow<Boolean> = _loader
+        val isError = MutableSharedFlow<Boolean>()
 
         init {
             getCharacters()
@@ -40,17 +42,19 @@ class HomeViewModel
                     .collectLatest { result ->
                         when (result) {
                             is NetworkProcess.Failure -> {
-                                loader.emit(false)
+                                _loader.value = false
+                                isError.emit(true)
                                 Log.d(TAG, "ErrorCode: ${result.errorCode} Message: ${result.message} Data: ${result.data}")
                             }
                             NetworkProcess.Loading -> {
+                                _loader.value = true
                                 Log.d(TAG, "Loading")
                             }
                             is NetworkProcess.Success -> {
                                 Log.d(TAG, "Success")
                                 val list = result.data?.characters?.results?.mapNotNull { it?.toRickyAndMortyCharacter() } ?: emptyList()
                                 _characterList.value = list
-                                loader.emit(false)
+                                _loader.value = false
                             }
                         }
                     }
