@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.josecernu.rickandmorty.RickAndMortyQuery
 import com.josecernu.rickandmortyapp.data.NetworkProcess
 import com.josecernu.rickandmortyapp.data.Repository
+import com.josecernu.rickandmortyapp.data.domain.RickyAndMortyBasicInfo
 import com.josecernu.rickandmortyapp.data.mapper.toRickyAndMortyCharacter
-import com.josecernu.rickandmortyapp.data.model.RickyAndMortyCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -25,8 +25,8 @@ class HomeViewModel
             const val TAG = "HomeViewModel"
         }
 
-        private val _characterList = MutableStateFlow<List<RickyAndMortyCharacter>>(emptyList())
-        val characterList: StateFlow<List<RickyAndMortyCharacter>> = _characterList
+        private val _characterList = MutableStateFlow<List<RickyAndMortyBasicInfo>>(emptyList())
+        val characterList: StateFlow<List<RickyAndMortyBasicInfo>> = _characterList
 
         private val _loader = MutableStateFlow(true)
         val loader: StateFlow<Boolean> = _loader

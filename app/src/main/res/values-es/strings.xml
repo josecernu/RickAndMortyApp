@@ -3,9 +3,14 @@
     <string name="character_name">Nombre</string>
     <string name="character_origin">Origen</string>
     <string name="character_gender">Género</string>
+    <string name="character_status">Estado</string>
+    <string name="character_specie">Especie</string>
+    <string name="character_location">Ubitación</string>
+    <string name="character_creation_date">Fecha de creación</string>
     <string name="error_title">Se ha producido un error al cargar la información</string>
     <string name="error_description">Puedes intentar actualizar la pantalla de nuevo</string>
     <string name="emtpy_state_title">No hay informaicón ahora mismo</string>
     <string name="empty_state_description">Regresa más tarde para ver las actualizaciones</string>
     <string name="filter_by_gender">Filtro por género</string>
+    <string name="detail">Detalle</string>
 </resources>

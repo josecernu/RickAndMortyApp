@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.josecernu.rickandmortyapp.R
-import com.josecernu.rickandmortyapp.data.model.RickyAndMortyCharacter
+import com.josecernu.rickandmortyapp.data.domain.RickyAndMortyBasicInfo
 import com.josecernu.rickandmortyapp.navigation.Destination
 import com.josecernu.rickandmortyapp.ui.component.CharacterCard
 import com.josecernu.rickandmortyapp.ui.component.ErrorOrEmptyState
@@ -48,7 +48,7 @@ fun MainScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Rick And Morty") })
+            TopAppBar(title = { Text(stringResource(R.string.app_name)) })
         },
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
@@ -81,7 +81,7 @@ fun MainScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterListScreen(
-    characterList: List<RickyAndMortyCharacter>,
+    characterList: List<RickyAndMortyBasicInfo>,
     navController: NavHostController,
 ) {
     val options = listOf("All", "Male", "Female", "Unknown")
@@ -136,7 +136,7 @@ fun CharacterListScreen(
             items(filteredList) { item ->
                 CharacterCard(
                     name = item.name,
-                    origin = item.locationName,
+                    origin = item.originName,
                     gender = item.gender,
                     pictureUrl = item.image,
                 ) {

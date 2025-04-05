@@ -14,3 +14,23 @@ query RickAndMorty{
         }
     }
 }
+
+query GetCharacterDetail($id: ID!){
+    character(id: $id) {
+        id
+        name
+        status
+        species
+        gender
+        origin {
+            id
+            name
+        }
+        location {
+            id
+            name
+        }
+        created
+        image
+    }
+}
