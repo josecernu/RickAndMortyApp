@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -17,11 +19,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -44,7 +49,26 @@ fun MainScreen(
 ) {
     val characterList by viewModel.characterList.collectAsState()
     val isLoading by viewModel.loader.collectAsState()
+    val isLoadingMore by viewModel.loaderMore.collectAsState()
     val isError by viewModel.isError.collectAsState(false)
+
+    val listState = rememberLazyListState()
+
+    val shouldLoadMore =
+        remember {
+            derivedStateOf {
+                val lastVisibleItemIndex = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+                val totalItemsCount = listState.layoutInfo.totalItemsCount
+                lastVisibleItemIndex != null && lastVisibleItemIndex >= totalItemsCount - 5
+            }
+        }
+
+    LaunchedEffect(shouldLoadMore.value) {
+        viewModel.getCharacters()
+        if (shouldLoadMore.value) {
+            viewModel.getCharacters()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -70,6 +94,8 @@ fun MainScreen(
                         CharacterListScreen(
                             characterList,
                             navController,
+                            listState,
+                            isLoadingMore,
                         )
                     }
                 }
@@ -83,6 +109,8 @@ fun MainScreen(
 fun CharacterListScreen(
     characterList: List<RickyAndMortyBasicInfo>,
     navController: NavHostController,
+    listState: LazyListState,
+    showLoader: Boolean = false,
 ) {
     val options = listOf("All", "Male", "Female", "Unknown")
     var expanded by remember { mutableStateOf(false) }
@@ -129,9 +157,8 @@ fun CharacterListScreen(
                 }
             }
         }
-        val scrollState = rememberLazyListState()
         LazyColumn(
-            state = scrollState,
+            state = listState,
         ) {
             items(filteredList) { item ->
                 CharacterCard(
@@ -141,6 +168,19 @@ fun CharacterListScreen(
                     pictureUrl = item.image,
                 ) {
                     navController.navigate(Destination.Detail.route + "/${item.id}")
+                }
+            }
+            if (showLoader) {
+                item {
+                    Box(
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 }
             }
         }
