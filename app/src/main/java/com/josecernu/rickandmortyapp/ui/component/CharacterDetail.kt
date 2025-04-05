@@ -47,9 +47,10 @@ import com.josecernu.rickandmortyapp.ui.theme.RickAndMortyAppTheme
 @Composable
 fun CharacterDetail(
     characterInfo: RickyAndMortyDetailInfo,
-    onFavClick: (Boolean) -> Unit,
+    isFavorite: Boolean,
+    onFavClick: () -> Unit,
 ) {
-    var isFavorite by remember { mutableStateOf(characterInfo.basicInfo.isFavorite) }
+    var favorite by remember { mutableStateOf(isFavorite) }
 
     Column(
         modifier =
@@ -70,8 +71,8 @@ fun CharacterDetail(
 
             IconButton(
                 onClick = {
-                    isFavorite = !isFavorite
-                    onFavClick(isFavorite)
+                    favorite = !favorite
+                    onFavClick()
                 },
                 modifier =
                     Modifier
@@ -80,9 +81,9 @@ fun CharacterDetail(
                         .background(Color.White.copy(alpha = 0.7f), CircleShape),
             ) {
                 Icon(
-                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    imageVector = if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = "Favorite icon",
-                    tint = if (isFavorite) Color.Red else Color.Gray,
+                    tint = if (favorite) Color.Red else Color.Gray,
                 )
             }
         }
@@ -214,6 +215,7 @@ fun CharacterDetailPreview() {
             )
         CharacterDetail(
             characterInfo = itemInfo,
+            isFavorite = true,
         ) { }
     }
 }

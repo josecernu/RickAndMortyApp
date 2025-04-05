@@ -32,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.josecernu.rickandmortyapp.R
 import com.josecernu.rickandmortyapp.data.domain.RickyAndMortyBasicInfo
 import com.josecernu.rickandmortyapp.navigation.Destination
@@ -47,10 +48,17 @@ fun MainScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navController: NavHostController,
 ) {
+    val currentEntry = navController.currentBackStackEntryAsState()
+
+    LaunchedEffect(currentEntry.value) {
+        viewModel.refreshData()
+    }
+
     val characterList by viewModel.characterList.collectAsState()
     val isLoading by viewModel.loader.collectAsState()
     val isLoadingMore by viewModel.loaderMore.collectAsState()
     val isError by viewModel.isError.collectAsState(false)
+    val favorites by viewModel.favorites.collectAsState()
 
     val listState = rememberLazyListState()
 
@@ -96,6 +104,7 @@ fun MainScreen(
                             navController,
                             listState,
                             isLoadingMore,
+                            favorites,
                         )
                     }
                 }
@@ -111,6 +120,7 @@ fun CharacterListScreen(
     navController: NavHostController,
     listState: LazyListState,
     showLoader: Boolean = false,
+    favorites: Set<String>,
 ) {
     val options = listOf("All", "Male", "Female", "Unknown")
     var expanded by remember { mutableStateOf(false) }
@@ -166,7 +176,7 @@ fun CharacterListScreen(
                     origin = item.originName,
                     gender = item.gender,
                     pictureUrl = item.image,
-                    isFavorite = item.isFavorite,
+                    isFavorite = favorites.contains(item.id),
                 ) {
                     navController.navigate(Destination.Detail.route + "/${item.id}")
                 }

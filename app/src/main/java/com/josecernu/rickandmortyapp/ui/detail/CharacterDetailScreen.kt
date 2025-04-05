@@ -67,7 +67,9 @@ fun DetailScreen(
                     if (characterDetail != null) {
                         CharacterDetail(
                             characterInfo = characterDetail!!,
+                            isFavorite = viewModel.isFavorite(characterDetail!!.basicInfo.id),
                         ) {
+                            viewModel.onClickFavorite(characterDetail!!.basicInfo.id)
                         }
                     } else {
                         ErrorOrEmptyState(

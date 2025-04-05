@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.josecernu.rickandmorty.GetCharacterDetailQuery
 import com.josecernu.rickandmortyapp.data.NetworkProcess
 import com.josecernu.rickandmortyapp.data.Repository
+import com.josecernu.rickandmortyapp.data.dao.FavoriteDao
 import com.josecernu.rickandmortyapp.data.domain.RickyAndMortyDetailInfo
+import com.josecernu.rickandmortyapp.data.entity.FavoriteEntity
 import com.josecernu.rickandmortyapp.data.mapper.toRickyAndMortyDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +23,11 @@ import javax.inject.Inject
 @HiltViewModel
 class CharacterDetailViewModel
     @Inject
-    constructor(private val repository: Repository, savedStateHandle: SavedStateHandle) : ViewModel() {
+    constructor(
+        private val repository: Repository,
+        savedStateHandle: SavedStateHandle,
+        private val favoriteDao: FavoriteDao,
+    ) : ViewModel() {
         private companion object {
             const val TAG = "CharacterDetailViewModel"
             const val CHARACTER_ID_KEY = "id"
@@ -31,12 +37,17 @@ class CharacterDetailViewModel
 
         private val _characterInfo = MutableStateFlow<RickyAndMortyDetailInfo?>(null)
         val characterInfo: StateFlow<RickyAndMortyDetailInfo?> = _characterInfo
+        private val _favorites = mutableListOf<String>()
+        val favorites: List<String> get() = _favorites
 
         private val _loader = MutableStateFlow(true)
         val loader: StateFlow<Boolean> = _loader
         val isError = MutableSharedFlow<Boolean>()
 
         init {
+            viewModelScope.launch {
+                _favorites.addAll(favoriteDao.getAllFavorites().map { it.characterId })
+            }
             getCharacterDetail()
         }
 
@@ -62,6 +73,27 @@ class CharacterDetailViewModel
                             }
                         }
                     }
+            }
+        }
+
+        fun isFavorite(characterId: String): Boolean {
+            return _favorites.contains(characterId)
+        }
+
+        fun onClickFavorite(characterId: String) {
+            viewModelScope.launch {
+                if (isFavorite(characterId)) {
+                    favoriteDao.removeFavorite(FavoriteEntity(characterId))
+                } else {
+                    favoriteDao.addFavorite(FavoriteEntity(characterId))
+                }
+            }
+            updateFavorites()
+        }
+
+        private fun updateFavorites() {
+            viewModelScope.launch {
+                _favorites.addAll(favoriteDao.getAllFavorites().map { it.characterId })
             }
         }
     }
