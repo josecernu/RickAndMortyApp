@@ -166,6 +166,7 @@ fun CharacterListScreen(
                     origin = item.originName,
                     gender = item.gender,
                     pictureUrl = item.image,
+                    isFavorite = item.isFavorite,
                 ) {
                     navController.navigate(Destination.Detail.route + "/${item.id}")
                 }
