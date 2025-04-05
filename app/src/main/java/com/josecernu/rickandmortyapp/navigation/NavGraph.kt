@@ -8,6 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -21,6 +22,13 @@ fun NavGraph(navController: NavHostController) {
         composable(
             "${Destination.Detail.route}/{id}",
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
+        ) { backStackEntry ->
+            DetailScreen(navController = navController, id = backStackEntry.arguments?.getString("id") ?: "0")
+        }
+        composable(
+            "character/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType }),
+            deepLinks = listOf(navDeepLink { uriPattern = "alkimiirickandmorty://character/{id}" }),
         ) { backStackEntry ->
             DetailScreen(navController = navController, id = backStackEntry.arguments?.getString("id") ?: "0")
         }

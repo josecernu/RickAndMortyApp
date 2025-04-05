@@ -40,7 +40,8 @@ fun DetailScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "${characterDetail?.basicInfo?.name}", style = MaterialTheme.typography.titleMedium)
+                    val title = if (characterDetail != null) characterDetail?.basicInfo?.name else ""
+                    Text(text = title ?: "", style = MaterialTheme.typography.titleMedium)
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
