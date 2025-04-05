@@ -26,7 +26,7 @@ fun NavGraph(navController: NavHostController) {
             DetailScreen(navController = navController, id = backStackEntry.arguments?.getString("id") ?: "0")
         }
         composable(
-            "character/{id}",
+            "${Destination.DeeplinkToDetail.route}/{id}",
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
             deepLinks = listOf(navDeepLink { uriPattern = "alkimiirickandmorty://character/{id}" }),
         ) { backStackEntry ->
