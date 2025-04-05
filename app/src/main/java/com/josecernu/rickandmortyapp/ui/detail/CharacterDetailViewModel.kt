@@ -1,6 +1,7 @@
 package com.josecernu.rickandmortyapp.ui.detail
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.josecernu.rickandmorty.GetCharacterDetailQuery
@@ -20,10 +21,13 @@ import javax.inject.Inject
 @HiltViewModel
 class CharacterDetailViewModel
     @Inject
-    constructor(private val repository: Repository) : ViewModel() {
+    constructor(private val repository: Repository, savedStateHandle: SavedStateHandle) : ViewModel() {
         private companion object {
             const val TAG = "CharacterDetailViewModel"
+            const val CHARACTER_ID_KEY = "id"
         }
+
+        private val characterId: String = savedStateHandle.get<String>(CHARACTER_ID_KEY) ?: "0"
 
         private val _characterInfo = MutableStateFlow<RickyAndMortyDetailInfo?>(null)
         val characterInfo: StateFlow<RickyAndMortyDetailInfo?> = _characterInfo
@@ -38,7 +42,7 @@ class CharacterDetailViewModel
 
         private fun getCharacterDetail() {
             viewModelScope.launch(Dispatchers.IO) {
-                repository.makeApiCall(GetCharacterDetailQuery("1"))
+                repository.makeApiCall(GetCharacterDetailQuery(characterId))
                     .collectLatest { result ->
                         when (result) {
                             is NetworkProcess.Failure -> {

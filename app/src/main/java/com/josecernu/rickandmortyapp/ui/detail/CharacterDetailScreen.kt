@@ -30,7 +30,7 @@ import com.josecernu.rickandmortyapp.ui.detail.CharacterDetailViewModel
 fun DetailScreen(
     viewModel: CharacterDetailViewModel = hiltViewModel(),
     navController: NavController,
-    id: Int,
+    id: String,
 ) {
     val characterDetail by viewModel.characterInfo.collectAsState()
     val isLoading by viewModel.loader.collectAsState()

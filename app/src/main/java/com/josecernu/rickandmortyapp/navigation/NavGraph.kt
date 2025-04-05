@@ -20,9 +20,9 @@ fun NavGraph(navController: NavHostController) {
         }
         composable(
             "${Destination.Detail.route}/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType }),
-        ) {
-            DetailScreen(navController = navController, id = it.arguments?.getInt("id") ?: 0)
+            arguments = listOf(navArgument("id") { type = NavType.StringType }),
+        ) { backStackEntry ->
+            DetailScreen(navController = navController, id = backStackEntry.arguments?.getString("id") ?: "0")
         }
     }
 }
