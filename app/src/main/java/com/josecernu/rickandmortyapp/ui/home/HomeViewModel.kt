@@ -41,10 +41,6 @@ class HomeViewModel
         private var isLoadingMore = false
         private var isLastPage = false
 
-        init {
-            refreshData()
-        }
-
         fun getCharacters() {
             if (isLoadingMore || isLastPage) return
 

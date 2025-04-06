@@ -66,7 +66,9 @@ fun CharacterCard(
                 if (isFavorite) {
                     Icon(
                         modifier =
-                            Modifier.background(Color.White.copy(alpha = 0.7f), CircleShape),
+                            Modifier
+                                .background(Color.White.copy(alpha = 0.0f), CircleShape)
+                                .padding(end = 4.dp),
                         imageVector = Icons.Default.Favorite,
                         contentDescription = "Favorite icon",
                         tint = Color.Red,
@@ -136,6 +138,7 @@ fun CharacterCardPreview() {
             origin = "Earth (C-137)",
             gender = "Male",
             pictureUrl = "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+            isFavorite = true,
         ) {}
     }
 }

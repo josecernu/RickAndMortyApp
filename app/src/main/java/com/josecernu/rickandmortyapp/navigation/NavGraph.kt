@@ -22,15 +22,15 @@ fun NavGraph(navController: NavHostController) {
         composable(
             "${Destination.Detail.route}/{id}",
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
-        ) { backStackEntry ->
-            DetailScreen(navController = navController, id = backStackEntry.arguments?.getString("id") ?: "0")
+        ) {
+            DetailScreen(navController = navController)
         }
         composable(
             "${Destination.DeeplinkToDetail.route}/{id}",
             arguments = listOf(navArgument("id") { type = NavType.StringType }),
             deepLinks = listOf(navDeepLink { uriPattern = "alkimiirickandmorty://character/{id}" }),
-        ) { backStackEntry ->
-            DetailScreen(navController = navController, id = backStackEntry.arguments?.getString("id") ?: "0")
+        ) {
+            DetailScreen(navController = navController)
         }
     }
 }
