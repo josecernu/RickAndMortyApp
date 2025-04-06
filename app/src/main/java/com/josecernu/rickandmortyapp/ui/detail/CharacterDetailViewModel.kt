@@ -38,6 +38,7 @@ class CharacterDetailViewModel
         private val _characterInfo = MutableStateFlow<RickyAndMortyDetailInfo?>(null)
         val characterInfo: StateFlow<RickyAndMortyDetailInfo?> = _characterInfo
         private val _favorites = mutableListOf<String>()
+        val favorites = _favorites
 
         private val _loader = MutableStateFlow(true)
         val loader: StateFlow<Boolean> = _loader

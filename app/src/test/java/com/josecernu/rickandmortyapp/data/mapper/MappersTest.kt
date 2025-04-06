@@ -9,7 +9,7 @@ import org.junit.Test
 
 class MappersTest {
     @Test
-    fun `mapRickyAndMortyCharacter with null values should return RickyAndMortyBasicInfo with values`()  {
+    fun `mapRickyAndMortyCharacter with null values should return RickyAndMortyBasicInfo with values`() {
         val resultMock =
             mockk<RickAndMortyQuery.Result> {
                 every { id } returns null
@@ -29,7 +29,7 @@ class MappersTest {
     }
 
     @Test
-    fun `mapRickyAndMortyCharacter with not null values should return RickyAndMortyBasicInfo with values`()  {
+    fun `mapRickyAndMortyCharacter with not null values should return RickyAndMortyBasicInfo with values`() {
         val originMock =
             mockk<RickAndMortyQuery.Origin> {
                 every { name } returns "Earth"
@@ -54,7 +54,7 @@ class MappersTest {
     }
 
     @Test
-    fun `mapRickyAndMortyCharacterDetail with null values should return RickyAndMortyDetailInfo with values`()  {
+    fun `mapRickyAndMortyCharacterDetail with null values should return RickyAndMortyDetailInfo with values`() {
         val resultMock =
             mockk<GetCharacterDetailQuery.Character> {
                 every { id } returns null
@@ -85,7 +85,7 @@ class MappersTest {
     }
 
     @Test
-    fun `mapRickyAndMortyCharacterDetail with not null values should return RickyAndMortyDetailInfo with values`()  {
+    fun `mapRickyAndMortyCharacterDetail with not null values should return RickyAndMortyDetailInfo with values`() {
         val originMock =
             mockk<GetCharacterDetailQuery.Origin> {
                 every { name } returns "Earth"
