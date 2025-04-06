@@ -2,6 +2,8 @@ package com.josecernu.rickandmortyapp.data
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Query
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo3.cache.normalized.fetchPolicy
 import com.apollographql.apollo3.exception.ApolloException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +18,10 @@ class Repository
             flow {
                 emit(NetworkProcess.Loading)
                 try {
-                    val response = apolloClient.query(query).execute()
+                    val response =
+                        apolloClient.query(query)
+                            .fetchPolicy(FetchPolicy.CacheFirst)
+                            .execute()
                     emit(NetworkProcess.Success(response.data))
                 } catch (e: ApolloException) {
                     emit(NetworkProcess.Failure(e.message ?: "Something went wrong"))

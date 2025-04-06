@@ -79,6 +79,7 @@ dependencies {
     // GraphQl
     implementation(libs.apollo.runtime)
     implementation(libs.apollo.api)
+    implementation(libs.apollo.normalized.cache)
 
     // Coil
     implementation(libs.coil.compose)
