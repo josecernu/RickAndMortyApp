@@ -97,7 +97,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     // Test
-    testImplementation (libs.mockk)
-    testImplementation (libs.kotlinx.coroutines.test)
-    androidTestImplementation (libs.mockk.android)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.mockk.android)
 }
