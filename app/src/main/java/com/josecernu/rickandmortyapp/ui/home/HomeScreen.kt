@@ -52,6 +52,7 @@ fun MainScreen(
 
     LaunchedEffect(currentEntry.value) {
         viewModel.refreshData()
+        viewModel.getCharacters()
     }
 
     val characterList by viewModel.characterList.collectAsState()
@@ -72,7 +73,6 @@ fun MainScreen(
         }
 
     LaunchedEffect(shouldLoadMore.value) {
-        viewModel.getCharacters()
         if (shouldLoadMore.value) {
             viewModel.getCharacters()
         }

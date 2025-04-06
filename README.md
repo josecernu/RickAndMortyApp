@@ -22,6 +22,7 @@ This project demonstrates the use of Jetpack Compose with MVVM to create a moder
 ## Project Structure
 
 - `app` module: Contains the main application code.
+    - `src/main/graphql`: Graphql files
     - `src/main/java`: Kotlin source code.
     - `src/main/res`: Resources like layouts, strings, and drawables.
 
