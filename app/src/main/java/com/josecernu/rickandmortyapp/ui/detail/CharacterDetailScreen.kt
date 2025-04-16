@@ -63,14 +63,14 @@ fun DetailScreen(
                         description = stringResource(R.string.error_description),
                     )
                 } else {
-                    if (characterDetail != null) {
+                    characterDetail?.let { detail ->
                         CharacterDetail(
-                            characterInfo = characterDetail!!,
-                            isFavorite = viewModel.isFavorite(characterDetail!!.basicInfo.id),
+                            characterInfo = detail,
+                            isFavorite = viewModel.isFavorite(detail.basicInfo.id),
                         ) {
-                            viewModel.onClickFavorite(characterDetail!!.basicInfo.id)
+                            viewModel.onClickFavorite(detail.basicInfo.id)
                         }
-                    } else {
+                    } ?: run {
                         ErrorOrEmptyState(
                             title = stringResource(R.string.emtpy_state_title),
                             description = stringResource(R.string.empty_state_description),
